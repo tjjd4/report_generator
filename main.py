@@ -1,7 +1,12 @@
 import csv
 
 from reportlab.pdfgen import canvas
+
+from reportlab.platypus import SimpleDocTemplate
+from reportlab.platypus import Paragraph
+
 from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet
 
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.cidfonts import UnicodeCIDFont
@@ -19,15 +24,22 @@ FINAL_RANK_COL = 14
 
 w, h = A4
 with open("./score_sheet - scoresheet1.csv", 'r', encoding="utf8", newline='') as file:
-  csvreader = csv.reader(file)
-  scoresheet = list(csvreader)
-  
+    csvreader = csv.reader(file)
+    scoresheet = list(csvreader)
 
 pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'))
 
-c = canvas.Canvas("hello-world.pdf", pagesize=A4)
-c.setFont('STSong-Light', 16)
+doc = SimpleDocTemplate('hello-world.pdf')
 
-c.drawString(50, h - 50, "你好")
-c.showPage()
-c.save()
+flowable = []
+
+sample_style_sheet = getSampleStyleSheet()
+
+def firstPageSetup(canvas, doc):
+    canvas.saveState()
+    canvas.drawImage('./report_template.png', 0, 0)
+    canvas.restoreState()
+bogustext = ("This is Paragraph number") *20
+p = Paragraph(bogustext, sample_style_sheet['Normal'])
+flowable.append(p)
+doc.build(flowable, onFirstPage=firstPageSetup)
