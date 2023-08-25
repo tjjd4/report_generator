@@ -19,9 +19,11 @@ FINAL_RANK_COL = 14
 
 w, h = A4
 with open("./score_sheet - scoresheet1.csv", 'r', encoding="utf8", newline='') as file:
-  csvreader = csv.reader(file)
-  scoresheet = list(csvreader)
-  
+    csvreader = csv.reader(file)
+    scoresheet = list(csvreader)
+
+def getGroupRank(group_row):
+    return scoresheet[group_row][FINAL_RANK_COL]
 
 pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'))
 
