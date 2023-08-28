@@ -3,7 +3,7 @@ import csv
 from reportlab.pdfgen import canvas
 
 from reportlab.platypus import SimpleDocTemplate, TableStyle, Table
-from reportlab.platypus import Paragraph, Spacer
+from reportlab.platypus import Paragraph, Spacer, Image
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
@@ -101,9 +101,11 @@ tableStyle = TableStyle([
 ])
 
 p = Paragraph(bogustext, styleNormalCustom)
+i = Image('./images/lion_icon.png', width=150, height=150, hAlign='LEFT')
 s = Spacer(0, 337)
 table = Table(table_data, [150,250],40, style=tableStyle)
 flowable.append(p)
+flowable.append(i)
 flowable.append(s)
 flowable.append(table)
 doc.build(flowable, onFirstPage=firstPageSetup)
