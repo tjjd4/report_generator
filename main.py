@@ -22,6 +22,7 @@ GAME3_RANK_COL = 8
 GAME4_RANK_COL = 11
 FINAL_RANK_COL = 14
 
+RANK_TABLE_FINAL_COL = 5
 w, h = A4
 
 rankTable = []
@@ -47,55 +48,29 @@ def getRank(group, game):
         return rankTable[group-1][game]
     else:
         raise Exception("Wrong group or game number")
+    
+def getRank(group):
+    if group > 0 and group <= GROUP_AMOUNT and group == rankTable[group-1][0]:
+        return rankTable[group-1][RANK_TABLE_FINAL_COL]
+    else:
+        raise Exception("Wrong group or game number")
 
-print(getRank(1,5))
+
 def firstPageSetup(canvas, doc):
     canvas.saveState()
     canvas.drawImage('./images/report_template1.png', 0, 0)
     canvas.drawImage('./images/lion_icon.png', 100, h-280, width=150, height=150, mask='auto')
-    # textObject = canvas.beginText()
-    # canvas.drawImage('./images/icon.png', 235, h-222, width=50, height=50, mask='auto')
-    # textObject.setTextOrigin(277, h-206)
-    # textObject.setFont("STSong-Light", 16)
-    # textObject.textLine("團體評評理")
-    # textObject.moveCursor(0,8)
-    # textObject.setFont("STSong-Light", 13)
-    # textObject.setLeading(20)
-    # textObject.textLines('''
-    #     恭喜玩家們在一連串的關卡中脫穎而出，在所有
-    #     關卡中分數加總最高，是今天的佼佼者啊！
-    #     森林之王頒給你們是實至名歸。
-    # ''')
-    # canvas.drawImage('./images/icon.png', 59, h-333, width=20, height=50, mask='auto')
-    # textObject.setTextOrigin(101, h-316)
-    # textObject.setFont("STSong-Light", 16)
-    # textObject.textLine("身體健康望周知")
-    # textObject.setFont("STSong-Light", 13)
-    # textObject.textLines('''
-    #     嘿～剛剛從回饋問卷中依照長者健康整合式評估的結果出爐！
-    #     你們這組高年級玩家的身體狀態：非常健康，老當益壯！
-    # ''')
-    # canvas.drawImage('./images/icon.png', 59, h-393, width=50, height=50, mask='auto')
-    # textObject.setTextOrigin(101, h-377)
-    # textObject.setFont("STSong-Light", 16)
-    # textObject.textLine("你的感受我在乎")
-    # textObject.moveCursor(0,8)
-    # textObject.setFont("STSong-Light", 13)
-    # textObject.textLines('''
-    #     今天的關卡設計中，我們其實有暗藏一些小巧思。第一是我們四個關卡分別以平衡、
-    #     敏捷、肌力與柔軟四大面向來規劃！第二呢，那就是設計發想皆是來自於
-    #     高齡者體適能檢測項目喔！ 希望你們在做些關卡的時候也對這些項目更有認識！
-    # ''')
-    # textObject.setTextOrigin(101, h-670)
-    # textObject.setFont("STSong-Light", 13)
-    # textObject.textLine("之後回去也不妨多練習這些動作來提升體適能唷！")
-    # canvas.drawText(textObject)
     canvas.restoreState()
 
 sample_style_sheet = getSampleStyleSheet()
 
 title1 = '<img src="./images/icon.png" valign="middle" width="20" height="20"/> 團體評評理'
-text1 = '恭喜玩家們在一連串的關卡中脫穎而出，在所有關卡中分數加總最高，是今天的佼佼者啊！森林之王頒給你們是實至名歸。'
+
+def getText1(group):
+    if getRank(group) == 1:
+        return '恭喜玩家們在一連串的關卡中脫穎而出，在所有關卡中分數加總最高，是今天的佼佼者啊！森林之王頒給你們是實至名歸。'
+    else:
+        return '玩家們在所有關卡中的表現都很平均哦！穩穩地完成了每一項關卡，我們不跟別人比，保持自己的身體在良好的狀況是最重要的。'
 
 title1StyleCustom = ParagraphStyle(
     'title1StyleCustom',
@@ -110,16 +85,17 @@ text1StyleCustom = ParagraphStyle(
     fontName='STSong-Light',
     fontSize=13,
     alignment = 0,
-    leading=18,
+    leading=16,
     leftIndent = 220,
     parent=sample_style_sheet["Normal"],
 )
 
 title2 = '<img src="./images/icon.png" valign="middle" width="20" height="20"/> 身體健康望周知'
-text2 = ('''
-    嘿～剛剛從回饋問卷中依照長者健康整合式評估的結果出爐！
-    你們這組高年級玩家的身體狀態：非常健康，老當益壯！
-''')
+def getText2(group):
+    return ('''
+        嘿～剛剛從回饋問卷中依照長者健康整合式評估的結果出爐！
+        你們這組高年級玩家的身體狀態：非常健康，老當益壯！
+    ''')
 
 title2StyleCustom = ParagraphStyle(
     'title2StyleCustom',
@@ -133,7 +109,7 @@ text2StyleCustom = ParagraphStyle(
     fontName='STSong-Light',
     fontSize=13,
     alignment = 0,
-    leading=18,
+    leading=16,
     leftIndent = 20,
     spaceAfter=10,
     parent=sample_style_sheet["Normal"],
@@ -141,7 +117,7 @@ text2StyleCustom = ParagraphStyle(
 
 title3 = '<img src="./images/icon.png" valign="middle" width="20" height="20"/> 你的感受我在乎'
 
-text3 = '今天的關卡設計中，我們其實有暗藏一些小巧思。第一是我們四個關卡分別以平衡、敏捷、肌力與柔軟四大面向來規劃！第二呢，那就是設計發想皆是來自於高齡者體適能檢測項目喔！希望你們在做些關卡的時候也對這些項目更有認識！'
+text3 = '今天的關卡設計中，我們其實有暗藏一些小巧思。第一是我們四個關卡分別以平衡、敏捷、肌力與柔軟四大面向來規劃！<br/>第二呢，那就是設計發想皆是來自於高齡者體適能檢測項目喔！希望你們在做些關卡的時候也對這些項目更有認識！'
 
 table_data = [['關卡名稱', '檢測項目'],
               ['平衡超雞群', '30秒單腳站立'],
@@ -159,13 +135,29 @@ tableStyle = TableStyle([
 
 text4 = '之後回去也不妨多練習這些動作來提升體適能唷！'
 
+text4StyleCustom = ParagraphStyle(
+    'text4StyleCustom',
+    fontName='STSong-Light',
+    fontSize=13,
+    alignment = 0,
+    leading=16,
+    leftIndent = 20,
+    spaceBefore=10,
+    parent=sample_style_sheet["Normal"],
+)
+
+def getText5(group):
+    return '而透過今天短短的相處，我們發現：<br/>今天的運動強度對你來說有點太吃力啦！<br/>建議可以參考衛福部的運動影片跟著動一動或是使用我們的每日任務提醒<br/>，我們將提供難度適中的任務，每日定期發送給您！<br/>相信只要持之以恆，天天動一動，體能會越來越好的！'
+
+print(len(rankTable))
+
 s = Spacer(0, 100)
 flowable.append(s)
 
 p = Paragraph(title1, title1StyleCustom)
 flowable.append(p)
 
-p = Paragraph(text1, text1StyleCustom)
+p = Paragraph(getText1(1), text1StyleCustom)
 flowable.append(p)
 
 s = Spacer(0, 30)
@@ -174,7 +166,7 @@ flowable.append(s)
 p = Paragraph(title2, title2StyleCustom)
 flowable.append(p)
 
-p = Paragraph(text2, text2StyleCustom)
+p = Paragraph(getText2(1), text2StyleCustom)
 flowable.append(p)
 
 p = Paragraph(title3, title2StyleCustom)
@@ -186,7 +178,10 @@ flowable.append(p)
 table = Table(table_data, [150,250],35, style=tableStyle)
 flowable.append(table)
 
-p = Paragraph(text4, text2StyleCustom)
+p = Paragraph(text4, text4StyleCustom)
+flowable.append(p)
+
+p = Paragraph(getText5(1), text4StyleCustom)
 flowable.append(p)
 
 doc.build(flowable, onFirstPage=firstPageSetup)
