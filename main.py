@@ -25,16 +25,35 @@ FINAL_RANK_COL = 14
 RANK_TABLE_FINAL_COL = 5
 w, h = A4
 
-rankTable = []
+groups_data = []
 
-with open("./score_sheet - scoresheet1.csv", 'r', encoding="utf8", newline='') as file:
+with open("./scoresheet1.csv", 'r', encoding="utf8", newline='') as file:
     csvreader = csv.reader(file)
     scoresheet = list(csvreader)
+    group_num = 1
+    for group in range(GROUP_START_ROW, GROUP_START_ROW + GROUP_AMOUNT):
+        groups_data.append([group_num, scoresheet[group][GAME1_RANK_COL], scoresheet[group][GAME2_RANK_COL], scoresheet[group][GAME3_RANK_COL], scoresheet[group][GAME4_RANK_COL], scoresheet[group][FINAL_RANK_COL]])
+        group_num += 1
 
-group_num = 1
-for group in range(GROUP_START_ROW, GROUP_START_ROW + GROUP_AMOUNT):
-    rankTable.append([group_num, scoresheet[group][GAME1_RANK_COL], scoresheet[group][GAME2_RANK_COL], scoresheet[group][GAME3_RANK_COL], scoresheet[group][GAME4_RANK_COL], scoresheet[group][FINAL_RANK_COL]])
-    group_num += 1
+with open("./questionnaire1.csv", 'r', encoding="utf8", newline='') as file:
+    csvreader = csv.reader(file)
+    questionnaire = list(csvreader)
+    for row in questionnaire:
+        match row[1]:
+            case "第1組":
+                groups_data[0].extend([row[3]])
+            case "第2組":
+                groups_data[1].extend([row[3]])
+            case "第3組":
+                groups_data[2].extend([row[3]])
+            case "第4組":
+                groups_data[3].extend([row[3]])
+            case "第5組":
+                groups_data[4].extend([row[3]])
+            case "第6組":
+                groups_data[5].extend([row[3]])
+            case _:
+                pass
 
 
 pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'))
@@ -44,14 +63,14 @@ doc = SimpleDocTemplate('hello-world.pdf')
 flowable = []
 
 def getRank(group, game):
-    if group > 0 and group <= GROUP_AMOUNT and group == rankTable[group-1][0]:
-        return rankTable[group-1][game]
+    if group > 0 and group <= GROUP_AMOUNT and group == groups_data[group-1][0]:
+        return groups_data[group-1][game]
     else:
         raise Exception("Wrong group or game number")
     
 def getRank(group):
-    if group > 0 and group <= GROUP_AMOUNT and group == rankTable[group-1][0]:
-        return rankTable[group-1][RANK_TABLE_FINAL_COL]
+    if group > 0 and group <= GROUP_AMOUNT and group == groups_data[group-1][0]:
+        return groups_data[group-1][RANK_TABLE_FINAL_COL]
     else:
         raise Exception("Wrong group or game number")
 
@@ -149,7 +168,13 @@ text4StyleCustom = ParagraphStyle(
 def getText5(group):
     return '而透過今天短短的相處，我們發現：<br/>今天的運動強度對你來說有點太吃力啦！<br/>建議可以參考衛福部的運動影片跟著動一動或是使用我們的每日任務提醒<br/>，我們將提供難度適中的任務，每日定期發送給您！<br/>相信只要持之以恆，天天動一動，體能會越來越好的！'
 
-print(len(rankTable))
+print(len(groups_data))
+print(groups_data[0])
+print(groups_data[1])
+print(groups_data[2])
+print(groups_data[3])
+print(groups_data[4])
+print(groups_data[5])
 
 s = Spacer(0, 100)
 flowable.append(s)
