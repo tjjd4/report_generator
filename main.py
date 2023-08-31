@@ -10,6 +10,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
 from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase.cidfonts import UnicodeCIDFont
 
 GROUP_AMOUNT = 6
@@ -80,7 +81,7 @@ with open("./questionnaire1.csv", 'r', encoding="utf8", newline='') as file:
             case _:
                 pass
 
-
+pdfmetrics.registerFont(TTFont('kaiu', "font/kaiu.ttf"))
 pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'))
 
 def getRank(group, game = FINAL_COL):
@@ -129,7 +130,7 @@ def getText1(group):
 
 title1StyleCustom = ParagraphStyle(
     'title1StyleCustom',
-    fontName='STSong-Light',
+    fontName='kaiu',
     alignment = 0,
     leftIndent = 200,
     parent=sample_style_sheet["Title"],
@@ -137,7 +138,7 @@ title1StyleCustom = ParagraphStyle(
 
 text1StyleCustom = ParagraphStyle(
     'text2StyleCustom',
-    fontName='STSong-Light',
+    fontName='kaiu',
     fontSize=13,
     alignment = 0,
     leading=16,
@@ -189,14 +190,14 @@ def getText2(group):
 
 title2StyleCustom = ParagraphStyle(
     'title2StyleCustom',
-    fontName='STSong-Light',
+    fontName='kaiu',
     alignment = 0,
     parent=sample_style_sheet["Title"],
 )
 
 text2StyleCustom = ParagraphStyle(
     'text2StyleCustom',
-    fontName='STSong-Light',
+    fontName='kaiu',
     fontSize=13,
     alignment = 0,
     leading=16,
@@ -217,8 +218,9 @@ table_data = [['關卡名稱', '檢測項目'],
 
 tableStyle = TableStyle([
     ('ALIGN', (0, 0), (-1, -1), 'CENTER'), # 置中對齊
-    ('FONTNAME', (0, 0), (-1, -1), 'STSong-Light'), # 字體
+    ('FONTNAME', (0, 0), (-1, -1), 'kaiu'), # 字體
     ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'), # 上下置中
+    ('FONTSIZE', (0, 0), (-1, -1), 12),
     ('GRID', (0, 0), (-1, -1), 1, colors.Color(1.00000,0.60000,0.60000)), # width 0.5
     ('BACKGROUND', (0, 0), (-1, 0), colors.Color(1.00000,0.80392,0.80392)),
 ])
@@ -227,7 +229,7 @@ text4 = '之後回去也不妨多練習這些動作來提升體適能唷！'
 
 text4StyleCustom = ParagraphStyle(
     'text4StyleCustom',
-    fontName='STSong-Light',
+    fontName='kaiu',
     fontSize=13,
     leading=16,
     leftIndent = 20,
