@@ -91,8 +91,8 @@ def getRank(group, game = FINAL_COL):
 
 def firstPageSetup(canvas, doc):
     canvas.saveState()
-    canvas.drawImage('./images/report_template1.png', 0, 0)
-    canvas.drawImage(getRankIconPath(doc.group), 100, h-280, width=150, height=150, mask='auto')
+    canvas.drawImage('./images/report_template.png', 0, 0)
+    canvas.drawImage(getRankIconPath(doc.group), 100, h-300, width=150, height=150, mask='auto')
     canvas.restoreState()
 
 def getRankIconPath(group):
@@ -210,8 +210,8 @@ title3 = '<img src="./images/icon.png" valign="middle" width="20" height="20"/> 
 text3 = '今天的關卡設計中，我們其實有暗藏一些小巧思。第一是我們四個關卡分別以平衡、敏捷、肌力與柔軟四大面向來規劃！<br/>第二呢，那就是設計發想皆是來自於高齡者體適能檢測項目喔！希望你們在做些關卡的時候也對這些項目更有認識！'
 
 table_data = [['關卡名稱', '檢測項目'],
-              ['平衡超雞群', '30秒單腳站立'],
-              ['路很難走', '8 英呎起身繞行（2.44公尺）'],
+              ['平衡超雞群', '30 秒單腳站立'],
+              ['路很難走', '8 英呎起身繞行（2.44 公尺）'],
               ['站立起乩', '椅子坐立'],
               ['軟爛的人', '抓背測驗、椅子坐姿體前彎']]
 
@@ -259,7 +259,7 @@ if __name__ == '__main__':
 
         doc.group = group
 
-        s = Spacer(0, 100)
+        s = Spacer(0, 120)
         flowable.append(s)
 
         p = Paragraph(title1, title1StyleCustom)
@@ -268,7 +268,7 @@ if __name__ == '__main__':
         p = Paragraph(getText1(group), text1StyleCustom)
         flowable.append(p)
 
-        s = Spacer(0, 30)
+        s = Spacer(0, 10)
         flowable.append(s)
 
         p = Paragraph(title2, title2StyleCustom)
