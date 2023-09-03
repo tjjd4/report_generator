@@ -13,7 +13,10 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase.cidfonts import UnicodeCIDFont
 
-GROUP_AMOUNT = 6
+GROUP_AMOUNT = 3
+
+SCORESHEET_FILE_PATH = "./scoresheet2.csv"
+QUESTIONNAIRE_FILE_PATH = "./questionnaire2.csv"
 
 SCORESHEET_GROUP_START_ROW = 2
 
@@ -42,7 +45,7 @@ w, h = A4
 
 groups_data = []
 
-with open("./scoresheet1.csv", 'r', encoding="utf8", newline='') as file:
+with open(SCORESHEET_FILE_PATH, 'r', encoding="utf8", newline='') as file:
     csvreader = csv.reader(file)
     scoresheet = list(csvreader)
     group_num = 1
@@ -55,7 +58,7 @@ with open("./scoresheet1.csv", 'r', encoding="utf8", newline='') as file:
                             int(scoresheet[group][SCORESHEET_FINAL_RANK_COL])])
         group_num += 1
 
-with open("./questionnaire1.csv", 'r', encoding="utf8", newline='') as file:
+with open(QUESTIONNAIRE_FILE_PATH, 'r', encoding="utf8", newline='') as file:
     csvreader = csv.reader(file)
     questionnaire = list(csvreader)
     for row in questionnaire:
@@ -69,15 +72,15 @@ with open("./questionnaire1.csv", 'r', encoding="utf8", newline='') as file:
             case "第3組":
                 groups_data[2].append(row[2])
                 groups_data[2].extend(row[7:15])
-            case "第4組":
-                groups_data[3].append(row[2])
-                groups_data[3].extend(row[7:15])
-            case "第5組":
-                groups_data[4].append(row[2])
-                groups_data[4].extend(row[7:15])
-            case "第6組":
-                groups_data[5].append(row[2])
-                groups_data[5].extend(row[7:15])
+            # case "第4組":
+            #     groups_data[3].append(row[2])
+            #     groups_data[3].extend(row[7:15])
+            # case "第5組":
+            #     groups_data[4].append(row[2])
+            #     groups_data[4].extend(row[7:15])
+            # case "第6組":
+            #     groups_data[5].append(row[2])
+            #     groups_data[5].extend(row[7:15])
             case _:
                 pass
 
